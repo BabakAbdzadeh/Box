@@ -1,7 +1,9 @@
-const box = [];
+// JSON.stringify wont accept Array
+const boxItemsObj = {};
+var counter = 0;
 function addToObject(){
   if(document.getElementById('newForm') !== null){
-    console.log('add to object executed');
+
     const form = document.getElementById('newForm');
     const formData = new FormData(form);
 
@@ -20,10 +22,29 @@ function addToObject(){
     for (const contributor of formData.entries()) {
       item.contributors[`${contributor[0]}`] = `${contributor[1]}`;
     }
-    box.push(item);
+
+    boxItemsObj[counter] = item;
+    counter++;
 }
 }
 
+
+
 function showBox(){
-  console.log(box);
+  console.log(boxItemsObj);
+}
+
+
+
+function submit(){
+
+  fetch('/', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(boxItemsObj),
+  }).then(res => res.json())
+  .then(data => console.log(data));
 }
