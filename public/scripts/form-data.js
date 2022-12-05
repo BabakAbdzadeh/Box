@@ -6,22 +6,24 @@ function addToObject(){
 
     const form = document.getElementById('newForm');
     const formData = new FormData(form);
-
-    let item = {
+    const contributorsMap = new Map();
+    const item = {
       product : {
         name : formData.get('product'),
         price : formData.get('price')
       },
-      contributors : {
-      }
+      contributors : '',
     }
 
     formData.delete('product');
     formData.delete('price');
     // Display the key/value pairs
     for (const contributor of formData.entries()) {
-      item.contributors[`${contributor[0]}`] = `${contributor[1]}`;
+      contributorsMap.set(contributor[0], contributor[1]);
     }
+    // USING replacer funciton to stringify the map
+    const contributorsStringify = JSON.stringify(contributorsMap, replacer);
+    item.contributors = contributorsStringify;
 
     boxItemsObj[counter] = item;
     counter++;
@@ -45,6 +47,26 @@ function submit(){
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(boxItemsObj),
-  }).then(res => res.json())
-  .then(data => console.log(data));
+  }) // response from BackEnd comes here
+  .then(res => res.json())
+  .then(data => {
+    console.log(data.status)
+    if(data.status === 'ok'){
+      window.location.href = "/results";
+    }
+  });
+}
+
+
+
+// Additional Function to send map over POST request
+function replacer(key, value) {
+  if(value instanceof Map) {
+    return {
+      dataType: 'Map',
+      value: Array.from(value.entries()), // or with spread: value: [...value]
+    };
+  } else {
+    return value;
+  }
 }
