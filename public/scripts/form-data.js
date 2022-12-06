@@ -48,10 +48,13 @@ function submit(){
     },
     body: JSON.stringify(boxItemsObj),
   }) // response from BackEnd comes here
-  .then(res => res.json())
-  .then(data => {
-    console.log(data.status)
-    if(data.status === 'ok'){
+  .then((res) => {
+    console.log(res.status);
+    return res.json();
+  })
+  .then((data) => {
+    console.log(data)
+    if(data.redirect === 'ok'){
       window.location.href = "/results";
     }
   });
