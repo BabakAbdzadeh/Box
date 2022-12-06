@@ -91,7 +91,7 @@ app.get('/', (req, res) => {
   // JUSt doing the code here for easy access
 
   if (req.query.valid !== false) {
-    console.log(req.query)
+    console.log("Query is: "+req.query)
   } else {
     console.log("this one is false : " + req.query.valid);
   }
@@ -139,8 +139,8 @@ app.post('/', (req, res) => {
     });
 
   }
-  console.log(inputObject);
-  console.log(sumObject);
+  // console.log(inputObject);
+  // console.log(sumObject);
   // Logic finish
   // Talk to DB:
   const newSummary = new Summary({
@@ -149,20 +149,22 @@ app.post('/', (req, res) => {
   });
   newSummary.save();
   // Redirect Phase:
-  res.json({status : 'ok'});
+  res.status(301).json({
+    redirect : "ok"
+  });
 
 });
 
 
 app.get('/results', (req, res) => {
-  console.log(Summary.find({}, (err, results) => {
+  Summary.find({}, (err, results) => {
     if (!err) {
       console.log('Redirect OK');
       res.render("result");
     } else {
-      console.log(err);
+      console.log("Erros is: "+err);
     }
-  }));
+  });
 });
 
 
