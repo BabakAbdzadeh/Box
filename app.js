@@ -130,6 +130,7 @@ app.post('/', (req, res) => {
     sumObject.boxSum += productPrice;
     // Loop through contributors:
     contributorsMap.forEach((amount, person, map) => {
+      console.log(`for ${person}, its gonna be ${amount} - ${eachPersonCut}`);
       map.set(person, parseFloat(amount - eachPersonCut));
       if (sumObject.contributorsSum.get(person) !== undefined) {
         // Report about the correctness of the contributor's +/-
@@ -157,15 +158,18 @@ app.post('/', (req, res) => {
 
 
 app.get('/results', (req, res) => {
-  Summary.find({}, (err, results) => {
-    if (!err) {
-      console.log('Redirect OK');
-      res.render("result");
-    } else {
-      console.log("Erros is: "+err);
-    }
-  });
-});
+    Summary.find({}, (err, result) => {
+      if (!err){
+
+        console.log('Redirect OK');
+        res.render("result", {
+          result : result[result.length -1]
+        });
+      }else {
+        console.log("Erros is: "+err);
+      }
+    });
+ });
 
 
 app.listen(3000, () => {

@@ -1,9 +1,8 @@
 function addName(){
-  const idNumber = Math.floor(Math.random() * Math.pow(10, 4));
+const idNumber = Math.floor(Math.random() * Math.pow(10, 4));
  var data = new FormData();
  // (B2) APPEND FIELDS
  data.append("nameInput", document.getElementById("nameInput").value);
-
 
  const welcomeItem = document.getElementById('sampleName');
  if(welcomeItem !== null){
@@ -11,7 +10,7 @@ function addName(){
  };
  // Create the container for each name check input
  const newName = document.createElement("div");
- newName.className = "name"
+ newName.className = "name";
 // Create input for each name
  const newCheckbox = document.createElement("input");
  newCheckbox.setAttribute('type', 'checkbox');
@@ -27,23 +26,17 @@ function addName(){
   newName.appendChild(newCheckbox);
   newName.appendChild(newLable);
 
-
   const nameContainer = document.getElementById('name-container');
   nameContainer.appendChild(newName);
-
-
   // CLear input for next name
   document.getElementById('nameInput').value = '';
-
 }
 
 function addProduct(){
-
-console.log('add product executed');
- var data = new FormData();
-
- // (B2) APPEND FIELDS
- data.append("productInput", document.getElementById("productInput").value);
+ // var data = new FormData();
+ //
+ // // (B2) APPEND FIELDS
+ // data.append("productInput", document.getElementById("productInput").value);
 
  const welcomeItem = document.getElementById('sampleProduct');
  if(welcomeItem !== null){
@@ -52,7 +45,6 @@ console.log('add product executed');
 
 const newProduct = document.createElement("div");
 newProduct.className = 'product';
-
 
 // TABALE STARTS
 const table = document.createElement("table");
@@ -126,33 +118,26 @@ namesArr.forEach(name => {
   table.appendChild(nameRow);
 });
 table.setAttribute('border', '2');
-
 // Create a form to attach the table
 // reference to an element will never look "falsy"
 // so leaving off the explicit null check is safe.
 if(document.getElementById('newForm') !== null ){
   const oldForm = document.getElementById('newForm')
   oldForm.removeAttribute('id');
-
 }
 const form = document.createElement('form');
 form.setAttribute('id', 'newForm');
 
-
 form.appendChild(table);
 form.appendChild(newProduct);
-
-
 
 // TABLE FINISHED
 const productContainer = document.getElementById('product-container');
 productContainer.appendChild(form);
 
-
 // CLear input for next name
 document.getElementById('productInput').value = '';
 }
-
 
 function removeName(e) {
   e.parentNode.parentNode.removeChild(e.parentNode);
@@ -161,5 +146,4 @@ function removeName(e) {
 function removeFromProducts(e){
   // Has to be modified for BackEnd
 console.log(e.parentNode.parentNode.getElementsByTagName('td')[2].firstChild.setAttribute('disabled', ''));
-
 }
