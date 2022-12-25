@@ -1,0 +1,132 @@
+html,
+body,
+#root,
+.app-container,
+.show-contributors {
+  height: 100%;
+  width: 100%;
+
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: lightgray;
+}
+
+
+p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  margin: 1em 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
+  margin: 1em 0;
+  display: inline-block;
+  margin: 1%;
+}
+
+h1 {
+  font-size: 32px;
+}
+
+h2 {
+  font-size: 28px;
+}
+
+h3 {
+  font-size: 24px;
+}
+
+h4 {
+  font-size: 20px;
+}
+
+h5 {
+  font-size: 16px;
+}
+
+h6 {
+  font-size: 12px;
+}
+
+a {
+  color: #0000FF;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  padding: 0.75em;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: #333;
+}
+
+button {
+  display: inline-block;
+  padding: 0.75em 1.5em;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background-color: #333;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #666;
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+button:focus {
+  outline: none;
+}
+
+
+
+.submit-contributors {
+  padding-top: 5%;
+}
+
+.submit-contributors button {
+  width: 100%;
+}
+
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  margin: 0.75em 0;
+}
