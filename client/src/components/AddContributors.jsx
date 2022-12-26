@@ -51,7 +51,16 @@ function AddContributors(props) {
                         </button>
                     </div>
                     <div className="submit-contributors">
-                        <button type="button" onClick={handleCLick}>Done with adding Names</button>
+                        <button type="button" onClick={() => {
+                            if (namesArray.length !== 0) {
+                                handleCLick()
+                            } else {
+                                alert("Please Add names");
+                            }
+                        }}
+                        >
+                            Done with adding Names
+                        </button>
                     </div>
                 </form>
             </div>
