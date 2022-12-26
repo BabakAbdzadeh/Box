@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-
 import _ from "lodash"
 
 
-function AddContributors() {
+function AddContributors(props) {
     // Hooks
     const [inputText, setInputText] = useState();
     const [namesArray, setNames] = useState([]);
@@ -29,6 +28,11 @@ function AddContributors() {
             })
         })
     }
+
+    function handleCLick() {
+        props.handleNamesArrayState(() => [...namesArray]);
+        props.chooseComponent(false);
+    }
     function handleSubmit(e) {
         e.preventDefault();
     }
@@ -36,6 +40,7 @@ function AddContributors() {
     return (
         <div className="contributors-container">
             <div className="add-contributors">
+
                 <form onSubmit={handleSubmit}>
                     <div className="input-and-button">
 
@@ -46,7 +51,7 @@ function AddContributors() {
                         </button>
                     </div>
                     <div className="submit-contributors">
-                        <button type="submit">Done with adding Names</button>
+                        <button type="button" onClick={handleCLick}>Done with adding Names</button>
                     </div>
                 </form>
             </div>
