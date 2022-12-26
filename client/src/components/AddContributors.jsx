@@ -5,24 +5,24 @@ import _ from "lodash"
 function AddContributors(props) {
     // Hooks
     const [inputText, setInputText] = useState();
-    const [namesArray, setNames] = useState([]);
+    const [payers, setPayers] = useState([]);
     // Methods
     function handleInputText(e) {
 
         setInputText(e.target.value);
 
     };
-    function addNames() {
+    function addPayer() {
         if (inputText) {
-            setNames(prevNames => {
+            setPayers(prevNames => {
                 // using lodash 
-                return [...prevNames, _.startCase(inputText)]
+                return [...prevNames, { name: _.startCase(inputText), paid: 0 }]
             })
         }
         setInputText("");
     }
-    function removeName(nameIndex) {
-        setNames(prevNames => {
+    function removePayer(nameIndex) {
+        setPayers(prevNames => {
             return prevNames.filter((item, index) => {
                 return index !== nameIndex;
             })
@@ -30,7 +30,7 @@ function AddContributors(props) {
     }
 
     function handleCLick() {
-        props.handleNamesArrayState(() => [...namesArray]);
+        props.handlePayersState(() => [...payers]);
         props.chooseComponent(false);
     }
     function handleSubmit(e) {
@@ -46,13 +46,13 @@ function AddContributors(props) {
 
                         <input type="text" pattern=".*" onChange={handleInputText} placeholder="Write names..." value={inputText} />
 
-                        <button type="button" onClick={addNames}>
+                        <button type="button" onClick={addPayer}>
                             Add
                         </button>
                     </div>
                     <div className="submit-contributors">
                         <button type="button" onClick={() => {
-                            if (namesArray.length !== 0) {
+                            if (payers.length !== 0) {
                                 handleCLick()
                             } else {
                                 alert("Please Add names");
@@ -67,12 +67,12 @@ function AddContributors(props) {
             <div className="show-contributors">
                 <ul>
                     {
-                        namesArray.map((item, index) => <li key={index} className="list-item">
+                        payers.map((payer, index) => <li key={index} className="list-item">
                             <h4>
-                                {item}
+                                {payer.name}
                             </h4>
 
-                            <button onClick={() => { removeName(index) }}>Remove</button>
+                            <button onClick={() => { removePayer(index) }}>Remove</button>
                         </li>
                         )
                     }
