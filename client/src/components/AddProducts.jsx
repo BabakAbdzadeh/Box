@@ -1,17 +1,21 @@
 import React, { useState } from "react";
 import Table from "./Table";
+const { v4: uuid } = require('uuid');
 
 
 function AddProducts(props) {
-    const [isRendered, setRender] = useState(false);
-
-    const [product, setProduct] = useState({
+    const defaultProductObj = {
+        id: "",
         name: "",
         price: "",
-        payers: props.namesArray
-    });
-    function handleChange(e) {
-        const { name, value } = e.target
+        payers: props.payers
+    }
+    const [isRendered, setRender] = useState(false);
+    const [productsList, setProductsList] = useState([]);
+    const [product, setProduct] = useState(defaultProductObj);
+
+    function handleInputChange(e) {
+        const { name, value } = e.target;
         setProduct(prevValue => {
             return {
                 ...prevValue,
@@ -19,6 +23,26 @@ function AddProducts(props) {
             };
         });
         console.log(product);
+    }
+
+    function handleCLick() {
+
+        setProduct(prevValue => {
+            prevValue.id = uuid();
+            return prevValue;
+        })
+        console.log(product);
+        setProductsList((prevList) => {
+            return [...prevList, product]
+        });
+        setProduct(defaultProductObj);
+        setRender(true);
+    }
+
+    function deleteTable(id) {
+        setProductsList((prevList) => {
+            return (prevList.filter(product => product.id !== id))
+        });
     }
     function handleSubmit(e) {
         e.preventDefault();
@@ -31,16 +55,16 @@ function AddProducts(props) {
 
                     <div className="product-input-name">
 
-                        <input name="name" placeholder="Product's Name" onChange={handleChange} value={product.name}></input>
+                        <input name="name" placeholder="Product's Name" onChange={handleInputChange} value={product.name}></input>
                     </div>
                     <div className="product-input-price">
 
-                        <input name="price" type="number" min="0" placeholder="Product's Price" onChange={handleChange} value={product.price}></input>
+                        <input name="price" type="number" min="0" placeholder="Product's Price" onChange={handleInputChange} value={product.price}></input>
                     </div>
-                    <button onClick={() => { setRender(true) }}>Add Product</button>
+                    <button onClick={handleCLick}>Add Product</button>
                 </div>
             </form>
-            {isRendered && <Table tableData={product} />}
+            {isRendered && productsList.map((product, index) => <Table key={index} tableData={product} deleteTable={deleteTable} recieveData={props.recieveData} />)}
 
 
         </div>
@@ -49,5 +73,12 @@ function AddProducts(props) {
 
 }
 
+
+// Renaming
+// Table for each product
+// Adding id to each product
+// Delete Table
+// Adding data of the table
+// DELETE PEOPLE FROM A PRODUCT
 
 export default AddProducts;
