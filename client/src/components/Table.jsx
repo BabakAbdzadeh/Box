@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 function Table(props) {
 
@@ -6,12 +6,21 @@ function Table(props) {
     let falsesArray = new Array(tableData.payers.length).fill(false);
     const [inputDisabledState, setInputDisabledState] = useState(falsesArray);
     const [modifiedTableData, setModifiedTableData] = useState(tableData);
+    const [isReady, setIsReady] = useState(false);
+
+    const sendBack = useCallback(() => {
+        props.recieveData(modifiedTableData);
+    }, [modifiedTableData, props]);
+
+    useEffect(() => {
+        if (isReady) {
+            sendBack();
+        }
+    }, [isReady, sendBack]);
 
     function handleInputChange(e) {
         const { id, value } = e.target;
         const tableIndex = id;
-
-
         setModifiedTableData(prevValue => {
             const updatedPayers = [...prevValue.payers];
             updatedPayers[tableIndex] = {
@@ -35,6 +44,7 @@ function Table(props) {
 
     function preprationToSendBack() {
         // remove disabled folks
+        // useState
         setModifiedTableData(prevValue => {
             const cloneOfPayers = [...prevValue.payers];
             const updatedPayers = cloneOfPayers.filter((payer, index) => {
@@ -45,14 +55,17 @@ function Table(props) {
                 ...prevValue,
                 payers: updatedPayers
             }
-        })
-        console.log(modifiedTableData);
+        });
+        setIsReady(true);
+        // console.log(modifiedTableData);
+        // NEXT I HAVE TO START FROM HERE
         // props.recieveData(modifiedTableData);
     }
-
     function handleSubmit(e) {
         e.preventDefault();
     }
+
+
 
     return (
         <div>
