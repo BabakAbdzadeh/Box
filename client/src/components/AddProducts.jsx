@@ -10,9 +10,10 @@ function AddProducts(props) {
         price: "",
         payers: props.payers
     }
-    const [isRendered, setRender] = useState(false);
+    const [isProductRendered, setIsProductRendered] = useState(false);
     const [productsList, setProductsList] = useState([]);
     const [product, setProduct] = useState(defaultProductObj);
+    const [isCallingToSendBack, setIsCallingToSendBack] = useState(false);
 
     function handleInputChange(e) {
         const { name, value } = e.target;
@@ -22,11 +23,9 @@ function AddProducts(props) {
                 [name]: value
             };
         });
-        console.log(product);
     }
 
     function handleCLick() {
-
         setProduct(prevValue => {
             prevValue.id = uuid();
             return prevValue;
@@ -36,7 +35,7 @@ function AddProducts(props) {
             return [...prevList, product]
         });
         setProduct(defaultProductObj);
-        setRender(true);
+        setIsProductRendered(true);
     }
 
     function deleteTable(id) {
@@ -64,8 +63,10 @@ function AddProducts(props) {
                     <button onClick={handleCLick}>Add Product</button>
                 </div>
             </form>
-            {isRendered && productsList.map((product, index) => <Table key={index} tableData={product} deleteTable={deleteTable} recieveData={props.recieveData} />)}
-
+            {isProductRendered && productsList.map((product, index) => <Table key={index} tableData={product} deleteTable={deleteTable} recieveData={props.recieveData} isCallingToSendBack={isCallingToSendBack} />)}
+            {isProductRendered && <button onClick={() => {
+                setIsCallingToSendBack(true);
+            }}>Calculate</button>}
 
         </div>
     )
