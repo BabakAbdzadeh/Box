@@ -3,20 +3,18 @@ import _ from "lodash"
 
 
 function AddContributors(props) {
-    // Hooks
+
     const [inputText, setInputText] = useState();
     const [payers, setPayers] = useState([]);
-    // Methods
+
     function handleInputText(e) {
-
         setInputText(e.target.value);
-
     };
     function addPayer() {
         if (inputText) {
             setPayers(prevNames => {
                 // using lodash 
-                return [...prevNames, { name: _.startCase(inputText), paid: 0 }]
+                return [...prevNames, { name: _.startCase(inputText), paid: "0" }]
             })
         }
         setInputText("");
@@ -32,6 +30,7 @@ function AddContributors(props) {
     function handleCLick() {
         props.handlePayersState(() => [...payers]);
         props.chooseComponent(false);
+        console.log(payers);
     }
     function handleSubmit(e) {
         e.preventDefault();

@@ -6,12 +6,11 @@ import AddProducts from './AddProducts.jsx';
 
 
 
-
 function App() {
     const [isDataRecieved, setIsDataRecieved] = useState(false);
     const [isAddContributorsVisible, setIsAddContributorsVisible] = useState(true);
     const [payers, setPayers] = useState([]);
-    const [JSON, setJSON] = useState({
+    const [jsonState, setJSON] = useState({
         names: "",
         products: [
             // {
@@ -43,7 +42,25 @@ function App() {
 
     useEffect(() => {
         if (isDataRecieved) {
-            console.log("rdy to send data to back-END");
+            fetch('http://localhost:3000/', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jsonState),
+            }) // response from BackEnd comes here
+                .then((res) => {
+                    console.log(res.status);
+                    return res.json();
+                })
+                .then((data) => {
+                    console.log(data)
+                    if (data.redirect === 'ok') {
+                        // window.location.href = "/results";
+                        console.log("OKIII");
+                    }
+                });
         }
         // fetch()
     }, [isDataRecieved])
@@ -67,7 +84,7 @@ function App() {
         setIsDataRecieved(true);
     }
     function getInfo() {
-        console.log(JSON);
+        console.log(jsonState);
     }
 
     return (
@@ -79,5 +96,5 @@ function App() {
 }
 
 
-// add id to the JSON structor.
+// add id to the jsonState structor.
 export default App;
