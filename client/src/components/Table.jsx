@@ -46,12 +46,13 @@ function Table(props) {
 
     function handleInputChange(e) {
         const { id, value } = e.target;
+        var isZero = Boolean(value);
         const tableIndex = id;
         setTableDataToModify(prevValue => {
             const updatedPayers = [...prevValue.payers];
             updatedPayers[tableIndex] = {
                 ...updatedPayers[tableIndex],
-                paid: value
+                paid: isZero ? value : '0'
             };
             return {
                 ...prevValue,

@@ -60,7 +60,14 @@ function AddProducts(props) {
 
                         <input name="price" type="number" min="0" placeholder="Product's Price" onChange={handleInputChange} value={product.price}></input>
                     </div>
-                    <button onClick={handleCLick}>Add Product</button>
+                    <button onClick={() => {
+                        if (product.name.length !== 0 && product.price.length !== 0) {
+
+                            handleCLick();
+                        } else {
+                            alert(`Please make sure you entered the product's name and price`);
+                        }
+                    }}>Add Product</button>
                 </div>
             </form>
             {isProductRendered && productsList.map((product, index) => <Table key={index} tableData={product} deleteTable={deleteTable} recieveData={props.recieveData} isCallingToSendBack={isCallingToSendBack} />)}
