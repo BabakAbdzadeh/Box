@@ -12,19 +12,7 @@ function App() {
     const [payers, setPayers] = useState([]);
     const [jsonState, setJSON] = useState({
         names: "",
-        products: [
-            // {
-            //     id: "",
-            //     name: "",
-            //     price: "",
-            //     payers: [
-            //         {
-            //             name: "",
-            //             paid: ""
-            //         }
-            //     ]
-            // }
-        ]
+        products: []
     });
 
     useEffect(() => {
@@ -56,9 +44,9 @@ function App() {
                 })
                 .then((data) => {
                     console.log(data)
-                    if (data.redirect === 'ok') {
+                    if (data) {
                         // window.location.href = "/results";
-                        console.log("OKIII");
+                        console.log(data);
                     }
                 });
         }
