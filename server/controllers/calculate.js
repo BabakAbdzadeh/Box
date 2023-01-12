@@ -1,85 +1,89 @@
-// logic
-// Test object
-var testObject = {
-    names: ['Babak', 'Mamad', 'Madre', 'Pedro', 'Omid', 'Bahar'],
-    products: [
-        {
-            id: 'c320308f-a004-4e0c-95e4-78088dfff5d8',
-            name: 'iphone 11',
-            price: '1500',
-            payers: [{ name: 'Babak', paid: '1000' }, { name: 'Bahar', paid: '500' }]
-        },
-        {
-            id: 'd2d9ba4e-f833-49d4-a8fa-f4bc4438b44d',
-            name: 'iphone 12',
-            price: '2000',
-            payers: [{ name: 'Babak', paid: '2000' }, { name: 'Mamad', paid: '0' }]
-        },
-        {
-            id: '15c6686a-18f7-458e-a4e9-e0b4ae95d464',
-            name: 'orange',
-            price: '50',
-            payers: [{ name: 'Babak', paid: '0' },
-            { name: 'Mamad', paid: '0' },
-            { name: 'Madre', paid: '50' },
-            { name: 'Pedro', paid: '0' },
-            { name: 'Omid', paid: '0' },
-            { name: 'Bahar', paid: '0' }]
-        },
-        {
-            id: '80b21a6e-4ff9-4b41-88c3-c4f953c4aa81',
-            name: 'test',
-            price: '4000',
-            payers: [{ name: 'Babak', paid: '2000' },
-            { name: 'Mamad', paid: '0' },
-            { name: 'Madre', paid: '0' },
-            { name: 'Pedro', paid: '0' },
-            { name: 'Omid', paid: '2000' },
-            { name: 'Bahar', paid: '0' }]
-        }
-    ]
-};
+// Requirements :
+// Mongoose models
+// AsyncHandler
+// Auth
 
-// 0. prepration
-// From input
-var requestBody = testObject;
 
-const totNumOfPayers = requestBody.names.length;
-const numOfProducts = requestBody.products.length;
 
-// For output
-const resultArr = requestBody.names.map(name => {
-    return {
-        name: name,
-        balance: Number(0)
-    }
-});
 
-// 1. calculate for eachProduct
-requestBody.products.forEach(product => {
-    // for more visibility
-    const numberOfPayersOnThisProduct = product.payers.length;
-    const productPrice = Number(product.price);
-    let cut = cutCalculator(productPrice, numberOfPayersOnThisProduct);
+// @desc Create new document
+// @route POST XXXXX
+// @access not-determined-yet 
+const postDocument = (req, res) => {
 
-    product.payers.forEach(payer => {
-        payer.paid = Number(payer.paid) - cut;
+    // new document and calculation
+    // From input
+    var billDocument = req.body;
+    console.log(billDocument);
+
+    // calculate contributor's cut for each product 
+    billDocument.products.forEach(product => {
+        // for more visibility
+        const numberOfPayersOnThisProduct = product.payers.length;
+        const productPrice = Number(product.price);
+        let cut = cutCalculator(productPrice, numberOfPayersOnThisProduct);
+
+        product.payers.forEach(payer => {
+            payer.paid = Number(payer.paid) - cut;
+        });
     });
-});
+    billDocument["balance"] = calculateBalances(billDocument.products, billDocument.names);;
+    billDocument["sum"] = calculateSum(billDocument.products);
 
-console.log(requestBody);
-requestBody.products.forEach(product => {
-    console.log(product.payers);
-})
+    // 2. Save the document to DB
 
-console.log(resultArr);
-// 2. 
-// 3. 
+    // 3. Handle the Response
+    // if(!err) from db <--> I have to update to async
+    //  201 and 400
+    res.status(201).json(billDocument);
 
-
+}
 
 
+
+
+module.exports = {
+    postDocument
+}
+
+
+
+// Calculation funcitons  
 
 function cutCalculator(price, numberOfContributors) {
     return price / numberOfContributors;
+}
+
+function calculateBalances(products, names) {
+    const balances = {};
+
+    // Iterate over each person in the names array
+    for (const name of names) {
+        // Set the balance for the current person to 0 in the balances object
+        balances[name] = 0;
+    }
+
+    // Iterate over each product in the products array
+    for (const product of products) {
+        // For each payer in the payers array of the current product,
+        // add the paid value to the balance for that person in the balances object
+        for (const payer of product.payers) {
+            balances[payer.name] += payer.paid;
+        }
+    }
+
+    // Map the balances object to an array of objects with name and balance properties
+    const result = Object.keys(balances).map(name => ({
+        name,
+        balance: balances[name]
+    }));
+
+    // Return the result array
+    return result;
+}
+
+function calculateSum(products) {
+    let sum = 0;
+    products.forEach(product => sum += Number(product.price));
+    return sum;
 }

@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const calculateController = require("../controllers/calculate");
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -8,13 +9,7 @@ router.get('/', function (req, res, next) {
 });
 
 
-router.post('/', (req, res, next) => {
-  const reqObj = req.body;
-  console.log(reqObj);
-  reqObj.products.forEach(product => console.log(product.payers));
-  res.status("ok").json({
-    redirect: "ok"
-  });
-})
+router.route('/')
+  .post(calculateController.postDocument);
 
 module.exports = router;
