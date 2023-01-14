@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import AddContributors from "./AddContributors";
 import AddProducts from './AddProducts.jsx';
+import Result from './Result'
 
 
 
@@ -9,11 +10,13 @@ import AddProducts from './AddProducts.jsx';
 function App() {
     const [isDataRecieved, setIsDataRecieved] = useState(false);
     const [isAddContributorsVisible, setIsAddContributorsVisible] = useState(true);
+    const [isFinalDocumentReady, setIsFinalDocumentReady] = useState(false);
     const [payers, setPayers] = useState([]);
     const [jsonState, setJSON] = useState({
         names: "",
         products: []
     });
+    const [finalDocument, setFinalDocument] = useState();
 
     useEffect(() => {
         let tempNamesHolder = [];
@@ -47,6 +50,8 @@ function App() {
                     if (data) {
                         // window.location.href = "/results";
                         console.log(data);
+                        setFinalDocument(data);
+                        setIsFinalDocumentReady(true);
                     }
                 });
         }
@@ -77,7 +82,17 @@ function App() {
 
     return (
         <div className="app-container">
-            {isAddContributorsVisible ? <AddContributors handlePayersState={handlePayersState} chooseComponent={chooseComponent} /> : <AddProducts payers={payers} recieveData={recieveData} />}
+            {
+                isFinalDocumentReady
+                    ?
+                    <Result finalDocument={finalDocument} />
+                    :
+                    isAddContributorsVisible
+                        ?
+                        <AddContributors handlePayersState={handlePayersState} chooseComponent={chooseComponent} />
+                        :
+                        <AddProducts payers={payers} recieveData={recieveData} />
+            }
             <button onClick={getInfo}> click me!</button>
         </div>
     )
