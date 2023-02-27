@@ -1,18 +1,22 @@
 /* Contributors Start*/
 
+
 /* Left side */
 .contributors-container {
     height: 100%;
-    width: 50%;
+    /* width: 50%; */
     display: flex;
+    flex-direction: column;
     align-items: center;
+    align-content: center;
 
 
 }
 
 .add-contributors {
-    width: 100%;
-    padding: 5%;
+    width: 30%;
+    /* padding: 5%; */
+    margin: 5%;
 }
 
 .input-and-button {
@@ -20,10 +24,24 @@
     justify-content: space-between;
 }
 
+.input-and-button input {
+    width: 70%;
+    height: 30px;
+    font-size: 20px;
+}
 
-/* Right side */
+
+/* Contributor's name box */
 .show-contributors {
-    padding: 5%;
+    width: 20%;
+    max-height: 50%;
+    overflow-y: scroll;
+
+}
+
+/* Hide the scrollbar */
+.show-contributors::-webkit-scrollbar {
+    display: none;
 }
 
 
