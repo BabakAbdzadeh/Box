@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Table from "./Table";
+import { plusSlides, numberText } from "../utils/TablesSlideShow";
+
 const { v4: uuid } = require('uuid');
 
-
 function AddProducts(props) {
+    // Main function
     const defaultProductObj = {
         id: "",
         name: "",
@@ -14,6 +16,9 @@ function AddProducts(props) {
     const [productsList, setProductsList] = useState([]);
     const [product, setProduct] = useState(defaultProductObj);
     const [isCallingToSendBack, setIsCallingToSendBack] = useState(false);
+
+    // This part is for having the latest added table on the screen:
+    const [isTheLatestTableRendered, setIsTheLatestTableRendered] = useState(false);
 
     function handleInputChange(e) {
         const { name, value } = e.target;
@@ -36,6 +41,10 @@ function AddProducts(props) {
         });
         setProduct(defaultProductObj);
         setIsProductRendered(true);
+
+        // Update part! for table rendering (related to CSS and JS)
+        setIsTheLatestTableRendered(true);
+
     }
 
     function deleteTable(id) {
@@ -47,33 +56,58 @@ function AddProducts(props) {
         e.preventDefault();
     }
 
+    // For Having the latest tables on the screen automatically.
+    useEffect(() => {
+        if (isTheLatestTableRendered) {
+            plusSlides(1);
+            numberText();
+        }
+        setIsTheLatestTableRendered(false);
+    }, [isTheLatestTableRendered]);
+
+
+
+
+    // UI
     return (
-        <div>
+        <div className="add-product-container">
             <form onSubmit={handleSubmit}>
                 <div className="add-product-inputs-and-name">
 
-                    <div className="product-input-name">
+                    {/* <div className="product-input-name"> */}
 
-                        <input name="name" placeholder="Product's Name" onChange={handleInputChange} value={product.name}></input>
-                    </div>
-                    <div className="product-input-price">
+                    <input name="name" placeholder="Product's Name" onChange={handleInputChange} value={product.name}></input>
+                    {/* </div>
+                    <div className="product-input-price"> */}
 
-                        <input name="price" type="number" min="0" placeholder="Product's Price" onChange={handleInputChange} value={product.price}></input>
-                    </div>
+                    <input name="price" type="number" min="0" placeholder="Product's Price" onChange={handleInputChange} value={product.price}></input>
+                    {/* </div> */}
                     <button onClick={() => {
                         if (product.name.length !== 0 && product.price.length !== 0) {
 
                             handleCLick();
+
                         } else {
                             alert(`Please make sure you entered the product's name and price`);
                         }
                     }}>Add Product</button>
                 </div>
             </form>
-            {isProductRendered && productsList.map((product, index) => <Table key={index} tableData={product} deleteTable={deleteTable} recieveData={props.recieveData} isCallingToSendBack={isCallingToSendBack} />)}
+            <div className="product-tables-container">
+                <div className="table-control-button">
+                    <a class="prev" onClick={() => { plusSlides(-1); numberText() }}>&#10094;</a>
+                </div>
+                {isProductRendered && productsList.map((product, index) => <Table key={index} tableData={product} deleteTable={deleteTable} recieveData={props.recieveData} isCallingToSendBack={isCallingToSendBack} />)}
+                {/* Next and previous buttons */}
+                <div className="table-control-button">
+                    <a class="next" onClick={() => { plusSlides(1); numberText() }}>&#10095;</a>
+                </div>
+            </div>
             {isProductRendered && <button onClick={() => {
                 setIsCallingToSendBack(true);
             }}>Calculate</button>}
+
+
 
         </div>
     )
