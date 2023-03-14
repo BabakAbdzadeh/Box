@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Table from "./Table";
 import { plusSlides, numberText } from "../utils/TablesSlideShow";
+import { toggleDropdown } from "../utils/r-dropdown";
 
 const { v4: uuid } = require('uuid');
 
@@ -71,36 +72,42 @@ function AddProducts(props) {
     // UI
     return (
         <div className="add-product-container">
-            <form onSubmit={handleSubmit}>
-                <div className="add-product-inputs-and-name">
+            <div className="dropdown-container">
+                <button onClick={() => toggleDropdown()} className="dropbtn">Drop me down!</button>
+                <div id="gmDropdown" className="dropdown-content">
 
-                    {/* <div className="product-input-name"> */}
+                    <form onSubmit={handleSubmit}>
+                        <div className="add-product-inputs-and-name">
 
-                    <input name="name" placeholder="Product's Name" onChange={handleInputChange} value={product.name}></input>
-                    {/* </div>
+                            {/* <div className="product-input-name"> */}
+
+                            <input name="name" placeholder="Product's Name" onChange={handleInputChange} value={product.name}></input>
+                            {/* </div>
                     <div className="product-input-price"> */}
 
-                    <input name="price" type="number" min="0" placeholder="Product's Price" onChange={handleInputChange} value={product.price}></input>
-                    {/* </div> */}
-                    <button onClick={() => {
-                        if (product.name.length !== 0 && product.price.length !== 0) {
+                            <input name="price" type="number" min="0" placeholder="Product's Price" onChange={handleInputChange} value={product.price}></input>
+                            {/* </div> */}
+                            <button onClick={() => {
+                                if (product.name.length !== 0 && product.price.length !== 0) {
 
-                            handleCLick();
+                                    handleCLick();
 
-                        } else {
-                            alert(`Please make sure you entered the product's name and price`);
-                        }
-                    }}>Add Product</button>
+                                } else {
+                                    alert(`Please make sure you entered the product's name and price`);
+                                }
+                            }}>Add Product</button>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
             <div className="product-tables-container">
                 <div className="table-control-button">
-                    <a class="prev" onClick={() => { plusSlides(-1); numberText() }}>&#10094;</a>
+                    <a className="prev" onClick={() => { plusSlides(-1); numberText() }}>&#10094;</a>
                 </div>
                 {isProductRendered && productsList.map((product, index) => <Table key={index} tableData={product} deleteTable={deleteTable} recieveData={props.recieveData} isCallingToSendBack={isCallingToSendBack} />)}
                 {/* Next and previous buttons */}
                 <div className="table-control-button">
-                    <a class="next" onClick={() => { plusSlides(1); numberText() }}>&#10095;</a>
+                    <a className="next" onClick={() => { plusSlides(1); numberText() }}>&#10095;</a>
                 </div>
             </div>
             {isProductRendered && <button onClick={() => {
