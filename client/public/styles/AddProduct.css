@@ -1,8 +1,10 @@
 .add-product-container {
+    height: 100%;
+
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 .add-product-container form {
@@ -181,6 +183,7 @@
 
     /* CSS styles for iPhone screens between 5.5 inches and 7 inches */
     .dropdown-container {
+        margin-top: 5%;
         width: 100%;
         height: auto;
         display: flex;
@@ -193,10 +196,10 @@
     .dropbtn {
         width: 50%;
         display: block;
-        background-color: #12355B;
+        background-color: #333;
         color: white;
-        padding: 1rem;
-        font-size: 1.5rem;
+        padding: 1.5rem;
+        font-size: 2.5rem;
         border: none;
         cursor: pointer;
         font-family: Baloo, sans-serif;
@@ -204,7 +207,7 @@
 
     .dropbtn:hover,
     .dropbtn:focus {
-        background-color: #046e8f;
+        background-color: gray;
     }
 
     .dropdown-content {
@@ -221,4 +224,61 @@
         display: block;
     }
 
+    /* Drop down content */
+    .add-product-inputs-and-name input {
+        width: 40%;
+        height: 2rem;
+        font-size: 1.5rem;
+        margin-top: 1%;
+    }
+
+    .add-product-inputs-and-name button {
+        font-size: 2rem;
+        width: 60px;
+        height: 60px;
+        margin: 1% 0;
+    }
+
+
+
+    /* Table */
+    /* table number */
+    .numbertext {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    /* table */
+    table {
+        font-size: 2rem;
+    }
+
+    table input {
+        font-size: 1.5rem;
+        padding: 0.5em;
+    }
+
+    /* table btn */
+    button.remove-product {
+        font-size: 1.5rem;
+        margin: 1% 0 0 30%;
+        padding: 2%;
+    }
+
+    /* prev and next btn */
+    .prev,
+    .next {
+        border-radius: 0 3px 3px 0;
+        color: white;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 80px;
+
+        padding: 25px;
+        margin: 25px;
+
+        transition: 0.6s ease;
+        user-select: none;
+        width: auto;
+    }
 }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
+
 function Table(props) {
 
     const primaryTableData = props.tableData
@@ -77,14 +78,16 @@ function Table(props) {
     }
 
     return (
-        <div>
+        <div className='product-table'>
+
             <form onSubmit={handleSubmit}>
+                <div class="numbertext"> JS code gonna do it here! </div>
                 <table>
                     <tbody>
                         <tr>
                             <th>Name</th>
                             <th>Amount</th>
-                            <th>Not participant</th>
+                            <th>Exclude</th>
                         </tr>
                         <tr>
                             <td>{primaryTableData.name}</td>
@@ -106,7 +109,7 @@ function Table(props) {
                         )}
                     </tbody>
                 </table>
-                <button onClick={() => props.deleteTable(primaryTableData.id)}> Remove product</button>
+                <button className="remove-product" onClick={() => props.deleteTable(primaryTableData.id)}>Remove product</button>
             </form>
 
         </div>
