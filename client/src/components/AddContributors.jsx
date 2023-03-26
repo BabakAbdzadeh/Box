@@ -10,6 +10,8 @@ function AddContributors(props) {
     function handleInputText(e) {
         setInputText(e.target.value);
     };
+
+
     function addPayer() {
         if (inputText) {
             setPayers(prevNames => {
@@ -19,6 +21,16 @@ function AddContributors(props) {
         }
         setInputText("");
     }
+
+    // new feature - button click trigger on Enter
+    const handleKeyDown = e => {
+        //It triggers by pressing the enter key (code : 13)
+        if (e.keyCode === 13) {
+            addPayer();
+        }
+    };
+
+
     function removePayer(nameIndex) {
         setPayers(prevNames => {
             return prevNames.filter((item, index) => {
@@ -43,9 +55,9 @@ function AddContributors(props) {
                 <form onSubmit={handleSubmit}>
                     <div className="input-and-button">
 
-                        <input type="text" pattern=".*" onChange={handleInputText} placeholder="Write names..." value={inputText} />
+                        <input type="text" pattern=".*" tabIndex={0} onChange={handleInputText} onKeyDown={handleKeyDown} placeholder="Write names..." value={inputText} />
 
-                        <button type="button" onClick={addPayer}>
+                        <button type="button" onClick={addPayer} >
                             Add
                         </button>
                     </div>
