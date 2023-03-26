@@ -1,0 +1,27 @@
+.result-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.result-container {
+    overflow: auto;
+}
+
+
+.result-table {
+    width: 90%;
+    display: block;
+}
+
+
+
+.rotate {
+    transform: rotate(90deg);
+}
+
+.reverseRotate {
+    transform: rotate(-90deg);
+    bottom: 10px;
+}
