@@ -3,7 +3,7 @@
 // AsyncHandler
 // Auth
 
-
+const Result = require('../models/Result').Result;
 
 
 // @desc Create new document
@@ -14,6 +14,7 @@ const postDocument = (req, res) => {
     // new document and calculation
     // From input
     var billDocument = req.body;
+    // console.log(req);
     console.log(billDocument);
 
     // calculate contributor's cut for each product 
@@ -24,13 +25,21 @@ const postDocument = (req, res) => {
         let cut = cutCalculator(productPrice, numberOfPayersOnThisProduct);
 
         product.payers.forEach(payer => {
-            payer.paid = Number(payer.paid) - cut;
+            payer.paid = Math.round(((Number(payer.paid) - cut) + Number.EPSILON) * 100) / 100;
         });
     });
     billDocument["balance"] = calculateBalances(billDocument.products, billDocument.names);;
     billDocument["sum"] = calculateSum(billDocument.products);
 
     // 2. Save the document to DB
+    const newResultDocument = new Result(billDocument);
+    newResultDocument.save()
+        .then(newDocument => {
+            console.log(`New Document: ${newDocument}`);
+        })
+        .catch(error => {
+            console.error(`Error: ${error}`);
+        });
 
     // 3. Handle the Response
     // if(!err) from db <--> I have to update to async
@@ -51,6 +60,7 @@ module.exports = {
 // Calculation funcitons  
 
 function cutCalculator(price, numberOfContributors) {
+    // rounding
     return price / numberOfContributors;
 }
 
@@ -68,7 +78,7 @@ function calculateBalances(products, names) {
         // For each payer in the payers array of the current product,
         // add the paid value to the balance for that person in the balances object
         for (const payer of product.payers) {
-            balances[payer.name] += payer.paid;
+            balances[payer.name] += Math.round((payer.paid + Number.EPSILON) * 100) / 100;
         }
     }
 
