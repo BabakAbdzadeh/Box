@@ -6,6 +6,29 @@
 const Result = require('../models/Result').Result;
 
 
+
+// @desc Get all results 
+// @route GET /results
+// @access note-determined-yet
+const getAllResults = (req, res) => {
+    // Get all notes from MongoDB
+    Result.find()
+        .then(data => {
+            console.log(data);
+            res.json(data);
+        })
+        .catch(err => console.log(err));
+    // !!!!! check if I need to use .lean() Method !!! 
+    // if (!results?.length) {
+    //     return res.status(400).json({ meesage: `${results}` });
+    // }
+
+    // User Auth must be added here! 
+    // Start
+    // Finish
+
+}
+
 // @desc Create new document
 // @route POST XXXXX
 // @access not-determined-yet 
@@ -52,7 +75,7 @@ const postDocument = (req, res) => {
 
 
 module.exports = {
-    postDocument
+    postDocument, getAllResults
 }
 
 
