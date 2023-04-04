@@ -15,6 +15,7 @@ const resultSchema = new mongoose.Schema({
         {
             id: String,
             name: String,
+            price: Number,
             payers: [{
                 name: String,
                 paid: Number
