@@ -2,14 +2,19 @@
 // Mongoose models
 // AsyncHandler
 // Auth
-
 const Result = require('../models/Result').Result;
 
 
 
-// @desc Get all results 
+// @desc Get all results
 // @route GET /results
 // @access note-determined-yet
+
+/**
+ * @returns {object} - All the results in the database
+ * @throws {Error} - If an error occurs while retrieving the results
+ */
+
 const getAllResults = (req, res) => {
     // Get all notes from MongoDB
     Result.find()
@@ -18,26 +23,23 @@ const getAllResults = (req, res) => {
             res.json(data);
         })
         .catch(err => console.log(err));
-    // !!!!! check if I need to use .lean() Method !!! 
-    // if (!results?.length) {
-    //     return res.status(400).json({ meesage: `${results}` });
-    // }
-
-    // User Auth must be added here! 
-    // Start
-    // Finish
-
 }
 
 // @desc Create new document
 // @route POST XXXXX
 // @access not-determined-yet 
+
+/**
+* @param { object } req.body - The request body containing the document information
+* @returns { object } - The newly created document
+* @throws { Error } - If an error occurs while creating the document
+*/
+
 const postDocument = (req, res) => {
 
     // new document and calculation
     // From input
     var billDocument = req.body;
-    console.log(billDocument);
 
     // calculate contributor's cut for each product 
     billDocument.products.forEach(product => {
@@ -165,8 +167,9 @@ module.exports = {
 }
 
 
+// 3d-party functions:
 
-// Calculation funcitons  
+// * Calculation Functions  
 
 function cutCalculator(price, numberOfContributors) {
     // rounding
