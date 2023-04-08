@@ -127,10 +127,41 @@ const updateDocument = (req, res) => {
 
 }
 
+// @desc Delete a document
+// @route DELETE XXXXX/:id
+// @access not-determined-yet
+
+/**
+ * Delete a document
+ *
+ * @param {string} id - The ID of the document to delete
+ * @returns {object} - A message indicating that the document has been deleted
+ * @throws {Error} - If the document with the given ID does not exist
+ */
+const deleteDocument = (req, res) => {
+    const documentId = req.params.id;
+    Result.findByIdAndRemove(documentId)
+        .then(data => {
+            if (!data) {
+                res.status(404).send({
+                    message: `Cannot delete document with id=${id}`
+                });
+            } else {
+                res.send({
+                    message: "Document was deleted successfully!"
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: `Could not delete Document with id=${id}`
+            });
+        });
+}
 
 
 module.exports = {
-    postDocument, getAllResults, updateDocument
+    postDocument, getAllResults, updateDocument, deleteDocument
 }
 
 
