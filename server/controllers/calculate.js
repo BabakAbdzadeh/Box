@@ -37,7 +37,6 @@ const postDocument = (req, res) => {
     // new document and calculation
     // From input
     var billDocument = req.body;
-    // console.log(req);
     console.log(billDocument);
 
     // calculate contributor's cut for each product 
@@ -72,10 +71,66 @@ const postDocument = (req, res) => {
 }
 
 
+// @desc Update an existing document
+// @route PUT XXXXX/:id
+// @access not-determined-yet
+
+/**
+ * Update an existing document
+ *
+ * @param {string} id - The ID of the document to update
+ * @param {object} updatedFields - An object containing the fields to update and their new values
+ * @returns {object} - The updated document
+ * @throws {Error} - If the document with the given ID does not exist
+ */
+
+const updateDocument = (req, res) => {
+    console.log("a request is coming");
+    // Id and Parameters
+    const documentID = req.params.id;
+    console.log(documentID);
+    const updateFields = req.body;
+    // retrieve the updated document from findByIdAndUpdate using the {new:true} option.
+    // retrieve the updated document using .then() by chaining a .exec() method
+    Result.findByIdAndUpdate(documentID, updateFields, { new: true }).exec()
+        .then((data) => {
+            let billDocument = data;
+            // perform calculations
+            // calculate contributor's cut for each product 
+            billDocument.products.forEach(product => {
+                // for more visibility
+                const numberOfPayersOnThisProduct = product.payers.length;
+                const productPrice = Number(product.price);
+                let cut = cutCalculator(productPrice, numberOfPayersOnThisProduct);
+
+                product.payers.forEach(payer => {
+                    payer.paid = Math.round(((Number(payer.paid) - cut) + Number.EPSILON) * 100) / 100;
+                });
+            });
+            billDocument["balance"] = calculateBalances(billDocument.products, billDocument.names);;
+            billDocument["sum"] = calculateSum(billDocument.products);
+            // save the updated document again
+            billDocument.save()
+                .then(() => {
+                    console.log(billDocument);
+                    res.status(202).send('Document updated successfully')
+                })
+                .catch((err) => {
+                    console.error(`Error saving document: ${err}`);
+                    res.status(500).send('Error saving document. ');
+                })
+        })
+        .catch((err) => {
+            console.error('error is:' + err);
+        });
+
+
+}
+
 
 
 module.exports = {
-    postDocument, getAllResults
+    postDocument, getAllResults, updateDocument
 }
 
 
