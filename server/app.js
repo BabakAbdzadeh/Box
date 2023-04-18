@@ -4,8 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require("cors");
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+
+const dbConfig = require("./config/db.config");
+var documentRoute = require('./routes/documents.routes');
+var usersRouter = require('./routes/user.routes');
 
 var app = express();
 
@@ -20,7 +22,25 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
-app.use('/', indexRouter);
+// database
+const db = require("./models/index");
+// const ROLE = db.role    for later
+db.mongoose
+  .connect(`mongodb+srv://${dbConfig.username}:${dbConfig.password}@${dbConfig.HOST}/${dbConfig.DB}`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(() => {
+    console.log("Successfully connect to MongoDB.");
+    // initial();
+  })
+  .catch(err => {
+    console.error("Connection error", err);
+    process.exit();
+  });
+
+// routes
+app.use('/', documentRoute);
 
 
 // catch 404 and forward to error handler
@@ -39,4 +59,5 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 
+console.log("App js is running too");
 module.exports = app;

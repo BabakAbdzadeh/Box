@@ -1,13 +1,4 @@
 const mongoose = require('mongoose');
-require('dotenv').config();
-
-
-const username = process.env.DB_USER;
-const password = process.env.DB_PASS;
-const url = `mongodb+srv://${username}:${password}@database.ithr0wo.mongodb.net/box`;
-mongoose.connect(url);
-console.log("DB is connected");
-
 
 const resultSchema = new mongoose.Schema({
     names: [String],
@@ -32,6 +23,6 @@ const resultSchema = new mongoose.Schema({
 });
 
 
-const Result = mongoose.model('result', resultSchema);
+const Result = mongoose.model('Result', resultSchema);
 
-module.exports = { Result };
+module.exports = Result;

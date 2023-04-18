@@ -2,7 +2,7 @@
 // Mongoose models
 // AsyncHandler
 // Auth
-const Result = require('../models/Result').Result;
+const Result = require('../models/index').results;
 
 
 
