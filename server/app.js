@@ -40,7 +40,10 @@ db.mongoose
   });
 
 // routes
-app.use('/', documentRoute);
+app
+  .use('/', documentRoute)
+  .use('/', usersRouter);
+
 
 
 // catch 404 and forward to error handler
