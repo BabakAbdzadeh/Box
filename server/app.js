@@ -7,7 +7,8 @@ var cors = require("cors");
 
 const dbConfig = require("./config/db.config");
 var documentRoute = require('./routes/documents.routes');
-var usersRouter = require('./routes/user.routes');
+var authRouter = require('./routes/auth.routes');
+var userRouter = require('./routes/user.routes');
 
 var app = express();
 
@@ -41,8 +42,17 @@ db.mongoose
 
 // routes
 app
+  .use((req, res, next) => {
+    res.header(
+      "Access-Control-Allow-Headers",
+      "x-access-token, Origin, Content-Type, Accept"
+    );
+    next();
+  })
   .use('/', documentRoute)
-  .use('/', usersRouter);
+  .use('/', authRouter)
+  .use('/', userRouter);
+
 
 
 
