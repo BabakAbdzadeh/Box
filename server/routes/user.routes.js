@@ -1,12 +1,11 @@
 var express = require('express');
 var router = express.Router();
-const controller = require("../controllers/user.controller");
+const controller = require("../controllers/calculate.controller");
+const { verifyToken } = require("../middlewares/authJwt")
 
-/* GET users listing. */
+
 router
-  .get('/api/user/get-all-users', controller.getAllUsers)
-  .post('/api/user/register/', controller.signup)
-  .post('/api/user/login', controller.singin)
-  .post('/api/user/signout', controller.signout);
+    .get('/api/user/results', [verifyToken], controller.getAllUserResults);
+
 
 module.exports = router;
