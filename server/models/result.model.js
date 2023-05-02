@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const resultSchema = new mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    },
     names: [String],
     products: [
         {
@@ -23,6 +27,6 @@ const resultSchema = new mongoose.Schema({
 });
 
 
-const Result = mongoose.model('Result', resultSchema);
 
-module.exports = Result;
+
+module.exports = mongoose.model('Result', resultSchema);
