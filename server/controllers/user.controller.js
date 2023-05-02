@@ -20,8 +20,6 @@ const getAllUsers = async (req, res) => {
 };
 
 
-
-
 // @desc Create new user - signUp
 // @route POST /users
 // @access Private
@@ -70,8 +68,6 @@ const singin = (req, res) => {
     })
         .exec()
         .then((user) => {
-
-
             if (!user) {
                 return res.status(404).send({ message: "User Not found." });
             }
@@ -85,24 +81,25 @@ const singin = (req, res) => {
                 return res.status(401).send({ message: "Invalid Password!" });
             }
 
-            // var token = jwt.sign({ id: user.id }, config.secret, {
-            //     expiresIn: 86400, // 24 hours
-            // });
+            // access token
+            var token = jwt.sign({ id: user.id }, config.secret, {
+                expiresIn: config.jwtExpiration, // 24 hours
+            });
 
-            // var authorities = [];
-
-
+            var authorities = [];
+            // this one is for express-session.
             // req.session.token = token;
 
             res.status(200).send({
                 id: user._id,
                 username: user.username,
                 email: user.email,
-                roles: authorities,
+                accessToken: token
+                // roles: authorities,
             });
         })
         .catch((err) => {
-            console.log('err');
+            console.log(`error is ${err}`);
             res.status(500).send({ message: err });
         });
 }

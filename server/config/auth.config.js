@@ -1,3 +1,4 @@
 module.exports = {
-    secret: "login-register-secret-key"
+    secret: "box-secret-key",
+    jwtExpiration: 60,
 };
