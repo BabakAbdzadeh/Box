@@ -2,7 +2,7 @@
 // Mongoose models
 // AsyncHandler
 // Auth
-const Result = require('../models/index').results;
+const Result = require('../models/index').Results;
 
 
 
@@ -16,7 +16,7 @@ const Result = require('../models/index').results;
  */
 
 const getAllResults = (req, res) => {
-    // Get all notes from MongoDB
+    // Get all documents from MongoDB for ADMIN
     Result.find()
         .then(data => {
             console.log(data);
@@ -24,6 +24,28 @@ const getAllResults = (req, res) => {
         })
         .catch(err => console.log(err));
 }
+
+// @desc Get user's history results
+// @route GET /api/user/results
+// @access user-access/private
+
+/**
+ * @returns {object} - All the results in the database
+ * @throws {Error} - If an error occurs while retrieving the results
+ */
+const getAllUserResults = (req, res) => {
+    // Get all document related to user from DB 
+
+    const userId = "643ffb933aa88615bd24df1c";
+    console.log("user id is: " + userId);
+    Result.find({ user: userId })
+        .then(data => {
+            console.log(data);
+            res.json(data);
+        })
+        .catch(err => console.log(err));
+}
+
 
 // @desc Create new document
 // @route POST XXXXX
@@ -40,7 +62,9 @@ const postDocument = (req, res) => {
     // new document and calculation
     // From input
     var billDocument = req.body;
-
+    if (req.body.username) {
+        billDocument['user'] = req.body.username;
+    }
     // calculate contributor's cut for each product 
     billDocument.products.forEach(product => {
         // for more visibility
@@ -55,7 +79,7 @@ const postDocument = (req, res) => {
     billDocument["balance"] = calculateBalances(billDocument.products, billDocument.names);;
     billDocument["sum"] = calculateSum(billDocument.products);
 
-    // 2. Save the document to DB
+    // 2. save the document to DB
     const newResultDocument = new Result(billDocument);
     newResultDocument.save()
         .then(newDocument => {
@@ -69,7 +93,6 @@ const postDocument = (req, res) => {
     // if(!err) from db <--> I have to update to async
     //  201 and 400
     res.status(201).json(billDocument);
-
 }
 
 
@@ -163,7 +186,7 @@ const deleteDocument = (req, res) => {
 
 
 module.exports = {
-    postDocument, getAllResults, updateDocument, deleteDocument
+    postDocument, getAllResults, getAllUserResults, updateDocument, deleteDocument
 }
 
 
