@@ -7,6 +7,7 @@ const controller = require("../controllers/user.controller");
 router
   .post('/api/user/register/', controller.signup)
   .post('/api/user/login', controller.singin)
-  .post('/api/user/signout', controller.signout);
+  .post('/api/user/signout', controller.signout)
+  .post('/api/auth/refreshtoken', controller.refreshToken);
 
 module.exports = router;
