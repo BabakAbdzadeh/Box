@@ -19,8 +19,7 @@ const RefreshTokenSchema = new mongoose.Schema({
  * @param {Object} user 
  * @returns {String} token 
  */
-
-RefreshTokenSchema.statics.createToken = (user) => {
+RefreshTokenSchema.statics.createToken = function (user) {
     let expiredAt = new Date();
 
     expiredAt.setSeconds(expiredAt.getSeconds() + config.jwtRefreshExpiration);
@@ -41,13 +40,10 @@ RefreshTokenSchema.statics.createToken = (user) => {
  * @param {String} token 
  * @returns {boolean} 
  */
-
 RefreshTokenSchema.statics.verifyExpiration = (token) => {
     return token.expiryDate.getTime() < new Date().getTime();
-
 }
 
 
-const RefreshToken = mongoose.nodel("RefreshToken", RefreshTokenSchema);
 
-module.exports = RefreshToken;
+module.exports = mongoose.model("RefreshToken", RefreshTokenSchema);;
