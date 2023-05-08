@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
 const controller = require("../controllers/calculate.controller");
-const { verifyToken } = require("../middlewares/authJwt")
+const { verifyToken, isAdmin } = require("../middlewares/authJwt")
 
 
 router
-    .get('/api/user/results', [verifyToken], controller.getAllUserResults);
+    .get('/api/user/results', [verifyToken], controller.getAllUserResults)
+    .get('/api/user/admin', [verifyToken, isAdmin], controller.getAdminContent);
 
 
 module.exports = router;
