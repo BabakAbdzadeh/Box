@@ -30,8 +30,7 @@ const signup = (req, res) => {
     const userObject = new User({
         username: req.body.username,
         password: bcrypt.hashSync(req.body.password, 10),
-        email: req.body.email
-
+        roles: req.body.roles ? req.body.roles : undefined
     });
 
     // Confirm data
@@ -46,6 +45,7 @@ const signup = (req, res) => {
 
     newUser.save()
         .then(registeredUser => {
+            console.log(registeredUser);
             console.log(`${registeredUser.username} has registered successfully`)
         })
         .catch(error => {
