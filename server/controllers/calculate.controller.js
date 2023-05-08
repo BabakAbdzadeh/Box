@@ -185,8 +185,14 @@ const deleteDocument = (req, res) => {
 }
 
 
+const getAdminContent = (req, res) => {
+    res.status(201).json({
+        message: "admin content"
+    })
+}
+
 module.exports = {
-    postDocument, getAllResults, getAllUserResults, updateDocument, deleteDocument
+    postDocument, getAllResults, getAllUserResults, updateDocument, deleteDocument, getAdminContent
 }
 
 
