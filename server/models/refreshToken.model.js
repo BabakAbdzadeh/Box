@@ -19,21 +19,27 @@ const RefreshTokenSchema = new mongoose.Schema({
  * @param {Object} user 
  * @returns {String} token 
  */
-RefreshTokenSchema.statics.createToken = function (user) {
+RefreshTokenSchema.statics.createToken = async function (user) {
     let expiredAt = new Date();
 
-    expiredAt.setSeconds(expiredAt.getSeconds() + config.jwtRefreshExpiration);
+    expiredAt.setSeconds(
+        expiredAt.getSeconds() + config.jwtRefreshExpiration
+    );
 
-    let token = uuidv4();
-    let newSchemaObject = new this({
-        token: token,
+    let _token = uuidv4();
+
+    let _object = new this({
+        token: _token,
         user: user._id,
-        expiryDate: expiredAt.getTime()
+        expiryDate: expiredAt.getTime(),
     });
 
-    let refreshTokenObject = newSchemaObject.save()
-    return refreshTokenObject.token;
-}
+    console.log(_object);
+
+    let refreshToken = await _object.save();
+
+    return refreshToken.token;
+};
 
 /**
  * 
