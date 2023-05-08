@@ -14,10 +14,10 @@ const userSchema = mongoose.Schema({
         // #SECURITY-PHASE
         // required : true
     },
-    roles: [{
-        type: String,
-        default: "Member"
-    }]
+    roles: {
+        type: Array,
+        default: ["user"]
+    }
 })
 
 module.exports = mongoose.model("User", userSchema);
