@@ -62,51 +62,43 @@ const signup = (req, res) => {
 // @desc Login user - signIp
 // @route POST /users
 // @access Private
-const singin = (req, res) => {
+const singin = async function (req, res) {
     console.log(req.body);
-    User.findOne({
-        username: req.body.username,
-    })
-        .exec()
-        .then((user) => {
-            if (!user) {
-                return res.status(404).send({ message: "User Not found." });
-            }
+    try {
+        const user = await User.findOne({ username: req.body.username }).exec();
+        if (!user) {
+            return res.status(404).send({ message: "User Not found." });
+        }
 
-            var passwordIsValid = bcrypt.compareSync(
-                req.body.password,
-                user.password
-            );
+        const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
 
-            if (!passwordIsValid) {
-                return res.status(401).send({ message: "Invalid Password!" });
-            }
+        if (!passwordIsValid) {
+            return res.status(401).send({ message: "Invalid Password!" });
+        }
 
-            // access token
-            let token = jwt.sign({ id: user.id }, config.secret, {
-                expiresIn: config.jwtExpiration, // 24 hours
-            });
-
-            let refreshToken = RefreshToken.createToken(user);
-
-            var authorities = [];
-            // this one is for express-session.
-            // req.session.token = token;
-
-            res.status(200).send({
-                id: user._id,
-                username: user.username,
-                email: user.email,
-                accessToken: token,
-                refreshToken: refreshToken
-                // roles: authorities,
-            });
-        })
-        .catch((err) => {
-            console.log(`error is ${err}`);
-            res.status(500).send({ message: err });
+        // access token
+        const token = jwt.sign({ id: user.id }, config.secret, {
+            expiresIn: config.jwtExpiration, // 24 hours
         });
-}
+
+        const refreshToken = await RefreshToken.createToken(user);
+
+        const authorities = [];
+
+        res.status(200).send({
+            id: user._id,
+            username: user.username,
+            email: user.email,
+            accessToken: token,
+            refreshToken: refreshToken
+            // roles: authorities,
+        });
+    } catch (err) {
+        console.log(`error is ${err}`);
+        res.status(500).send({ message: err });
+    }
+};
+
 
 
 
