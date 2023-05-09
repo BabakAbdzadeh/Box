@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const controller = require("../controllers/calculate.controller");
+const controller = require("../controllers/user.controller");
 const { verifyToken, isAdmin } = require("../middlewares/authJwt")
 
 
