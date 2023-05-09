@@ -6,7 +6,7 @@ var logger = require('morgan');
 var cors = require("cors");
 
 const dbConfig = require("./config/db.config");
-var documentRoute = require('./routes/documents.routes');
+var dataRoute = require('./routes/data.routes');
 var authRouter = require('./routes/auth.routes');
 var userRouter = require('./routes/user.routes');
 
@@ -49,7 +49,7 @@ app
     );
     next();
   })
-  .use('/', documentRoute)
+  .use('/', dataRoute)
   .use('/', authRouter)
   .use('/', userRouter);
 
