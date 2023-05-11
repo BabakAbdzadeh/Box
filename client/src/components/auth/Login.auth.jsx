@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Navigate } from "react-router-dom";
 import { login } from "../../services/auth.service"
 
 
@@ -8,17 +9,26 @@ function LoginComponent(props) {
     const [password, setPassword] = useState("");
     const [formSubmitted, setFormSubmitted] = useState(false);
 
-    // API call
-    useEffect(() => {
-        if (formSubmitted) {
-            login(username, password);
-        }
-    }, [formSubmitted]);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        setFormSubmitted(true);
+        try {
+            await login(username, password);
+            setIsAuthenticated(true);
+            props.onLoginSuccess(true);
+            setFormSubmitted(true);
+        } catch (err) {
+            console.error(err);
+            props.onLoginSuccess(false);
+        }
+
     };
+
+    if (isAuthenticated) {
+        return <Navigate to="/profile" />;
+
+    }
 
     return (
         <>
