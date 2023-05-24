@@ -14,7 +14,7 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 // Bootstrap
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import { logout } from '../services/auth.service';
+import { logout, getCurrentUser } from '../services/auth.service';
 
 
 
@@ -36,8 +36,31 @@ function App() {
 
     const handleLoginSuccess = (isLoggedIn) => {
         setIsLoggedIn(isLoggedIn);
-        // do something with the userData, if needed
     }
+
+    function logOut() {
+        logout();
+        setIsLoggedIn(false);
+    }
+
+    // to attach user's id to the document.
+    useEffect(() => {
+        const user = getCurrentUser();
+        const loggedUserID = user && user.id;
+        if (loggedUserID) {
+            setUserId(loggedUserID);
+        }
+    }, [isLoggedIn]);
+
+    useEffect(() => {
+        if (userId !== "") {
+            setJSON((json) => ({
+                ...json,
+                user: userId
+            }));
+        }
+
+    }, [userId]);
 
 
     useEffect(() => {
@@ -56,7 +79,7 @@ function App() {
     useEffect(() => {
         if (isDataRecieved) {
             console.log(jsonState);
-            fetch('http://localhost:3001/', {
+            fetch('http://localhost:3001/api/data/', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json, text/plain, */*',
@@ -110,10 +133,6 @@ function App() {
         setIsDataRecieved(true);
     }
 
-    function logOut() {
-        logout();
-        setIsLoggedIn(false);
-    }
     return (
         <>
             <BrowserRouter>
