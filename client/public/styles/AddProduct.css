@@ -5,6 +5,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+
+    overflow-y: auto;
 }
 
 .add-product-container form {
@@ -30,13 +32,17 @@
 
 .add-product-inputs-and-name input {
     width: 40%;
-    height: 25px;
+    /* height: 25px; */
     font-size: 20px;
     margin-top: 1%;
 }
 
 .add-product-inputs-and-name button {
     margin: 1% 0;
+}
+
+button.calculate-button {
+    margin-bottom: 5%;
 }
 
 /* .product-input-name,
