@@ -1,46 +1,42 @@
 import authHeader from "./auth-header";
+import { getCurrentUser } from "./auth.service";
 
-const API_URL = "";
+const userId = getCurrentUser().id;
+const API_URL = "http://localhost:3001/api/user/";
 
-export function getUserBoard() {
-    fetch(API_URL + 'user', {
-        method: 'GET',
-        headers: authHeader()
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            // TEST
-            console.log(data);
-            return data;
-        })
-        .catch(err => {
-            console.error(err);
+export async function getUserBoard() {
+    try {
+        const response = await fetch(API_URL + `results?id=${userId}`, {
+            method: 'GET',
+            headers: authHeader()
         });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        // TEST
+        console.log("test" + data);
+        return data;
+    } catch (err) {
+        console.error(err);
+    }
 };
-export function getAdminBoard() {
-    fetch(API_URL + 'admin', {
-        method: 'GET',
-        headers: authHeader()
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            // TEST
-            console.log(data);
-            return data;
-        })
-        .catch(err => {
-            console.error(err);
+export async function getAdminBoard() {
+    try {
+        const response = await fetch(API_URL + 'admin', {
+            method: 'GET',
+            headers: authHeader()
         });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        // TEST
+        console.log(data);
+        return data;
+    } catch (err) {
+        console.error(err);
+    }
 };
 // export function getAllUsers() { };
 // export function getAllData() { };
