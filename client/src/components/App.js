@@ -37,6 +37,13 @@ function App() {
     const handleLoginSuccess = (isLoggedIn) => {
         setIsLoggedIn(isLoggedIn);
     }
+    // login check for refresh
+    useEffect(() => {
+        const user = getCurrentUser();
+        if (user) {
+            setIsLoggedIn(true);
+        }
+    })
 
     function logOut() {
         logout();
