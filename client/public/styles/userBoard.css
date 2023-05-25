@@ -1,0 +1,4 @@
+.user-board-container {
+    overflow: scroll;
+    max-height: 400px;
+}
