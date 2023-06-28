@@ -61,7 +61,7 @@ The application uses React Router for routing. The following routes are defined:
 
 ## APIs and Connection
 
-The application interacts with a [BackEnd](#back end) API for user authentication and data retrieval. The API's base URL is "http://localhost:8080/api/user/" for authentication services and "http://localhost:3001/api/user/" for user services. The application uses fetch to make requests to the API and includes the user's access token in the headers for authenticated endpoints.
+The application interacts with a [BackEnd](#back-end) API for user authentication and data retrieval. The API's base URL is "http://localhost:8080/api/user/" for authentication services and "http://localhost:3001/api/user/" for user services. The application uses fetch to make requests to the API and includes the user's access token in the headers for authenticated endpoints.
 
 ## Getting Started
 
