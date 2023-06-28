@@ -1,5 +1,7 @@
 # BOX
 
+This repository houses a robust and interactive React application designed to manage and display product shares among different users. The application provides a comprehensive suite of features including user authentication, product and contributor management, and detailed result displays.
+
 ## Front End
 
 This is a React-based application that manages and displays product shares among different users.
@@ -59,7 +61,7 @@ The application uses React Router for routing. The following routes are defined:
 
 ## APIs and Connection
 
-The application interacts with a backend API for user authentication and data retrieval. The API's base URL is "http://localhost:8080/api/user/" for authentication services and "http://localhost:3001/api/user/" for user services. The application uses fetch to make requests to the API and includes the user's access token in the headers for authenticated endpoints.
+The application interacts with a [BackEnd](#back end) API for user authentication and data retrieval. The API's base URL is "http://localhost:8080/api/user/" for authentication services and "http://localhost:3001/api/user/" for user services. The application uses fetch to make requests to the API and includes the user's access token in the headers for authenticated endpoints.
 
 ## Getting Started
 
@@ -95,7 +97,7 @@ This project is a Node.js application that provides a RESTful API for managing a
 4. Set up your MongoDB database and update the `config/db.config.js` file with your database credentials.
 5. Run `nodemon` to start the server.
 
-## Usage Guide
+## API
 
 The application provides several endpoints for managing users and shared expenses:
 
