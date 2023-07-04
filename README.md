@@ -1,6 +1,6 @@
 # BOX
 
-This repository houses a robust and interactive React application designed to manage and display product shares among different users. The application provides a comprehensive suite of features including user authentication, product and contributor management, and detailed result displays.
+This repository houses a robust and interactive React, MERN, application designed to manage and display product shares among different users. The application provides a comprehensive suite of features including user authentication, product and contributor management, and detailed result displays.
 
 ## Front End
 
