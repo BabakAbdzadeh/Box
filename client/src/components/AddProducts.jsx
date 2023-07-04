@@ -73,7 +73,7 @@ function AddProducts(props) {
     return (
         <div className="add-product-container">
             <div className="dropdown-container">
-                <button onClick={() => toggleDropdown()} className="dropbtn">Drop me down!</button>
+                <button onClick={() => toggleDropdown()} className="dropbtn">Add New Item</button>
                 <div id="gmDropdown" className="dropdown-content">
 
                     <form onSubmit={handleSubmit}>
@@ -95,7 +95,7 @@ function AddProducts(props) {
                                 } else {
                                     alert(`Please make sure you entered the product's name and price`);
                                 }
-                            }}>Add Product</button>
+                            }}>+</button>
                         </div>
                     </form>
                 </div>
@@ -110,7 +110,7 @@ function AddProducts(props) {
                     <a className="next" onClick={() => { plusSlides(1); numberText() }}>&#10095;</a>
                 </div>
             </div>
-            {isProductRendered && <button onClick={() => {
+            {isProductRendered && <button className="calculate-button" onClick={() => {
                 setIsCallingToSendBack(true);
             }}>Calculate</button>}
 
