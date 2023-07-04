@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8080/api/user/";
+const API_URL = "http://localhost:3001/api/user/";
 
 /**
  * 
@@ -7,13 +7,12 @@ const API_URL = "http://localhost:8080/api/user/";
  * @returns {JSON} - TOKEN is here!
  */
 export function login(username, password) {
-    fetch(API_URL + 'login', {
+    return fetch(API_URL + 'login', {
         method: 'POST',
         headers: {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json'
         },
-
         body: JSON.stringify({
             username: username,
             password: password
@@ -23,19 +22,18 @@ export function login(username, password) {
             if (res.ok) {
                 return res.json();
             } else {
-                throw new Error('Network response was not ok');
+                alert('Invalid username or password');
+                throw new Error('Invalid username or password');
             }
         })
         .then((data) => {
             if (data.accessToken) {
                 localStorage.setItem("user", JSON.stringify(data));
+                return data;
             }
-            return data;
-        })
-        .catch((err) => {
-            console.error('There was a problem with the fetch operation:', err);
         });
 }
+
 
 /**
  * Remove user's token from local storage
@@ -84,7 +82,7 @@ export function register(username, email, password) {
         });
 };
 
-
+// profile component uses this method to show content of logged user.
 /**
  * 
  * @returns {JSON}
