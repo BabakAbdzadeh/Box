@@ -11,7 +11,7 @@ export default function UserBoard() {
     }, []);
 
     return (
-        <div className="user-board-container">
+        <div className="board-container">
             {content.map((key) => (
                 <header className="jumbotron">
 
