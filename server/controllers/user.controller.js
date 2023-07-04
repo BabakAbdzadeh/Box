@@ -1,5 +1,5 @@
 const Result = require('../models/index').Results;
-
+const User = require('../models/index').User;
 // @desc Get all results
 // @route GET /results
 // @access note-determined-yet
@@ -28,7 +28,7 @@ const getAllResults = (req, res) => {
 const getAllUserResults = (req, res) => {
     // Get all document related to user from DB 
 
-    const userId = "643ffb933aa88615bd24df1c";
+    const userId = req.query.id;
     console.log("user id is: " + userId);
     Result.find({ user: userId })
         .then(data => {
@@ -39,9 +39,15 @@ const getAllUserResults = (req, res) => {
 }
 
 const getAdminContent = (req, res) => {
-    res.status(201).json({
-        message: "admin content"
-    })
+    User.find().select('username -_id') // Exclude the '_id' field
+        .then(users => {
+            const usernames = users.map(user => user.username); // Array of usernames
+            res.status(200).json(usernames);
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({ message: "Error occurred while fetching usernames" });
+        });
 }
 
 
